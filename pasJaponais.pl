@@ -6,15 +6,16 @@ moyenne(A, B, C, Resultat) :-
 testMoyenne([A, B, C], SortieAttendue) :-
     moyenne(A, B, C, SortieAttendue).
 
-test("La moyenne de 1, 2 et 3 est 2", testMoyenne([1, 2, 3], 2)).
-test("La moyenne de 2, 2 et 2 est 2", testMoyenne([2, 2, 2], 2)).
+test("La moyenne de 1, 2 et 3 est 2", [moyenne, 1, 2, 3, 2]).
+test("La moyenne de 2, 2 et 2 est 2", [moyenne, 2, 2, 2, 2]).
+test("La moyenne de 2, 2 et 2 est 4", [moyenne, 2, 2, 2, 4]).
 
-testPass(Test, Entree, SortieAttendue) :-
-	call(Test, Entree, SortieAttendue).
+green(Name) :-
+    test(Name,  Test),
+    L =.. Test,
+    call(L).
 
-testPass([Test, Entree, SortieAttendue]) :-
-    test(Test),
-	testPass(Test, Entree, SortieAttendue).
-    
-testsPass(Tests) :-
-    maplist(testPass, Tests).
+red(Name) :-
+    test(Name,  Test),
+    L =.. Test,
+    not(call(L)).
